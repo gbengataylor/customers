@@ -1,0 +1,44 @@
+<header ng-switch on="$location.path().indexOf('/Orders/new') > -1">
+    <h3 ng-switch-when="true">Create a new Order</h3>
+    <h3 ng-switch-when="false">View or edit Order</h3>
+</header>
+<form id="OrderForm" name="OrderForm" class="form-horizontal" role="form">
+    
+
+    <div class="form-group" ng-class="{'has-error': OrderForm.customer.$invalid}">
+        <label for="customer" class="col-sm-2 control-label">Customer</label>
+        <div id="customerControls" class="col-sm-10">
+        <select id="customer" name="customer" class="form-control" ng-model="customerSelection" ng-options="c.text for c in customerSelectionList" required >
+            <option value="">Choose a Customer</option>
+        </select>
+        <span class="help-block error" ng-show="OrderForm.customer.$error.required">required</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': OrderForm.date.$invalid}">
+        <label for="date" class="col-sm-2 control-label">Date</label>
+        <div id="dateControls" class="col-sm-10">
+            <date id="date" name="date" required ng-model="order.date" placeholder="Enter the Order Date"></date>
+            <span class="help-block error" ng-show="OrderForm.date.$error.required">required</span> 
+            <span class="help-block error" ng-show="OrderForm.date.$error.dateFormat">does not match format "yyyy-MM-dd" (e.g. 2013-12-01)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': OrderForm.orderlines.$invalid}">
+        <label for="orderlines" class="col-sm-2 control-label">Orderlines</label>
+        <div id="orderlinesControls" class="col-sm-10">
+            <select id="orderlines" name="orderlines" multiple class="form-control" ng-model="orderlinesSelection" ng-options="o.text for o in orderlinesSelectionList">
+                <option value="">Choose a Orderlines</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveOrder" name="saveOrder" class="btn btn-primary" ng-disabled="isClean() || OrderForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteOrder" name="deleteOrder" class="btn btn-danger" ng-show="order.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
